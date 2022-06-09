@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <!-- persistance-unit их будет несколько если несколь бд
+    у него должно быть имя(индивидуальный индификатор)
+    одна настройка - один property тэг-->
+    <persistence-unit name="ormExam" transaction-type="RESOURCE_LOCAL">
+        <!--создаем мавен проект-для создания таюбдицы
+        1) потом тэг класс пишем автора
+        2) над классом сущности добавить аннотацию @Entity
+        3) @Table(name = "tb_authors")  //название таблички
+        4) @Id //указание, что поле станет первичным ключем таблицы
+        5)  @GeneratedValue(strategy = GenerationType.AUTO) //автоинкремент айди будет увеличиваться на 1
+        6) EntityManager создается класс-->
+        <class>ru.ifmo.exams.climbers.entity.Climber</class>
+        <class>ru.ifmo.exams.climbers.entity.Group</class>
+        <class>ru.ifmo.exams.climbers.entity.Mountain</class>
+
+
+        <properties>
+
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/exam-db"/>
+            <!--логин пользователя бд-->
+            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <!-- пароль пользователя бд-->
+            <property name="jakarta.persistence.jdbc.password" value="89142330186ula"/>
+            <!--используемый драйвер-->
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/> <!-- DB Dialect -->
+            <property name="hibernate.hbm2ddl.auto" value="create" /> <!-- create / create-drop / update -->
+
+            <property name="hibernate.show_sql" value="true" /> <!-- Show SQL in console -->
+            <property name="hibernate.format_sql" value="true" /> <!-- Show SQL formatted -->
+
+            <!-- <property name="hibernate.logging.level" value="FINE"/> --> <!-- fine(будет писать про все),error(только про ошибки), warning - logger-ы-->
+            <!--при каждом запуске таблицы будут удаляться и создаваться заново (drop-ana-create)
+             create, drop, drop-and-create, none-->
+            <!-- <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+
+            <!--hibernete заменяют пул, у эклипса нет хикари сипи-->
+            <property name="hibernate.c3p0.min_size" value="5"/>
+            <property name="hibernate.c3p0.max_size" value="20"/>
+            <property name="hibernate.c3p0.timeout" value="300"/>
+            <property name="hibernate.c3p0.max_statements" value="50"/>
+            <property name="hibernate.c3p0.idle_test_period" value="3000"/>
+
+            <!-- <property name="eclipselink.connection-pool.default.initial" value="5"/>
+            <property name="eclipselink.connection-pool.default.min" value="3"/>
+            <property name="eclipselink.connection-pool.default.max" value="10"/>-->
+
+            <!--            отключение кэша-->
+            <!--  <property name="eclipselink.cache.shared.default" value="false"/>-->
+
+       </properties>
+   </persistence-unit>
+</persistence>
